@@ -32,12 +32,11 @@ def write_to_spreadsheet(pr_income, ya_spend):
     try:
         spreadsheet = gc.open_by_url(tokens.spreadsheet_url)
         worksheet = spreadsheet.worksheet('hourly')
-        last_row = worksheet.row_count
-        date_column = worksheet.cell(last_row, 1).value.split()
-        # Check if date in the last row is today
+        date_column = worksheet.cell(2, 1).value.split()
+        # Check if date in the first row is today
         if today in date_column:
-            worksheet.update_cell(last_row, 3, pr_income)
-            worksheet.update_cell(last_row, 5, ya_spend)
+            worksheet.update_cell(2, 3, pr_income)
+            worksheet.update_cell(2, 5, ya_spend)
         else:
             print('date is not today')
     except gspread.exceptions.GSpreadException as e:
