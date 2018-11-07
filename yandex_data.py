@@ -1,28 +1,13 @@
 #! /usr/bin/python3
 # -*- coding: utf-8 -*-
 
-#from requests.exceptions import ConnectionError
-import sys
 import json
 import requests
 import tokens
+from time import sleep
 
 
 def get_expenses(period):
-    # Метод для корректной обработки строк в кодировке UTF-8 как в Python 3, так и в Python 2
-    if sys.version_info < (3,):
-        def u(x):
-            try:
-                return x.encode("utf8")
-            except UnicodeDecodeError:
-                return x
-    else:
-        def u(x):
-            if type(x) == type(b''):
-                return x.decode('utf8')
-            else:
-                return x
-
     # --- Входные данные ---
     ReportsURL = 'https://api.direct.yandex.com/json/v5/reports'
     #ReportsURL = 'https://api-sandbox.direct.yandex.com/json/v5/reports'
@@ -50,7 +35,7 @@ def get_expenses(period):
             "FieldNames": [
                 "Cost"
             ],
-            "ReportName": u("TODAY's Income"),
+            "ReportName": "TODAY's Income",
             "ReportType": "CAMPAIGN_PERFORMANCE_REPORT",
             "DateRangeType": period,
             "Format": "TSV",
@@ -71,7 +56,7 @@ def get_expenses(period):
             req.encoding = 'utf-8'  # Принудительная обработка ответа в кодировке UTF-8
             if req.status_code == 400:
                 print("Параметры запроса указаны неверно или достигнут лимит отчетов в очереди")
-                print("JSON-код ответа сервера: \n{}".format(u(req.json())))
+                print("JSON-код ответа сервера: \n{}".format(req.json()))
                 break
             elif req.status_code == 200:
                 total_sum = 0
@@ -89,16 +74,16 @@ def get_expenses(period):
                 sleep(retryIn)
             elif req.status_code == 500:
                 print("При формировании отчета произошла ошибка. Пожалуйста, попробуйте повторить запрос позднее")
-                print("JSON-код ответа сервера: \n{}".format(u(req.json())))
+                print("JSON-код ответа сервера: \n{}".format(req.json()))
                 break
             elif req.status_code == 502:
                 print("Время формирования отчета превысило серверное ограничение.")
                 print("Пожалуйста, попробуйте изменить параметры запроса - уменьшить период и количество запрашиваемых данных.")
-                print("JSON-код ответа сервера: \n{}".format(u(req.json())))
+                print("JSON-код ответа сервера: \n{}".format(req.json()))
                 break
             else:
                 print("Произошла непредвиденная ошибка")
-                print("JSON-код ответа сервера: \n{}".format(u(req.json())))
+                print("JSON-код ответа сервера: \n{}".format(req.json()))
                 break
 
         # Обработка ошибки, если не удалось соединиться с сервером API Директа
