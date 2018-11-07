@@ -9,11 +9,9 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 
 def main():
-    while True:
-        pr_income = pravoved_data.get_income('today')
-        ya_spend = yandex_data.get_expenses('TODAY')
-        write_to_spreadsheet(pr_income, ya_spend)
-        sleep(3600)
+    pr_income = pravoved_data.get_income('today')
+    ya_spend = yandex_data.get_expenses('TODAY')
+    write_to_spreadsheet(pr_income, ya_spend)
 
 def authorize():
     # Gspread authorize

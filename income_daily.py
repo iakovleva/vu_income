@@ -8,11 +8,9 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 
 def main():
-    while True:
-        pr_income = pravoved_data.get_income('yesterday')
-        ya_spend = yandex_data.get_expenses('YESTERDAY')
-        write_to_spreadsheet(pr_income, ya_spend)
-        sleep(3600*24)
+    pr_income = pravoved_data.get_income('yesterday')
+    ya_spend = yandex_data.get_expenses('YESTERDAY')
+    write_to_spreadsheet(pr_income, ya_spend)
 
 def authorize():
     scope = ['https://spreadsheets.google.com/feeds']
