@@ -2,16 +2,16 @@
 # -*- coding: utf-8 -*-
 
 from datetime import date
-from time import sleep
 import gspread
-import tokens, pravoved_data, yandex_data
+import tokens, pravoved_data, yandex_data, lex_data
 from oauth2client.service_account import ServiceAccountCredentials
 
 
 def main():
     pr_income = pravoved_data.get_income('today')
+    lex_income = lex_data.get_income(1)
     ya_spend = yandex_data.get_expenses('TODAY')
-    write_to_spreadsheet(pr_income, ya_spend)
+    write_to_spreadsheet(pr_income, lex_income, ya_spend)
 
 def authorize():
     # Gspread authorize
@@ -22,7 +22,7 @@ def authorize():
                   )
     return gspread.authorize(credentials)
 
-def write_to_spreadsheet(pr_income, ya_spend):
+def write_to_spreadsheet(pr_income, lex_income, ya_spend):
     # Get date
     today = date.today().strftime('%d.%m')
     gc = authorize()
@@ -33,6 +33,7 @@ def write_to_spreadsheet(pr_income, ya_spend):
         date_column = worksheet.cell(2, 1).value.split()
         # Check if date in the first row is today
         if today in date_column:
+            worksheet.update_cell(2, 2, lex_income)
             worksheet.update_cell(2, 3, pr_income)
             worksheet.update_cell(2, 5, ya_spend)
         else:
