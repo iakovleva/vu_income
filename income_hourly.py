@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from datetime import date
-from time import sleep
 import gspread
 import tokens, pravoved_data, yandex_data
 from oauth2client.service_account import ServiceAccountCredentials
