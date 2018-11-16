@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
 from datetime import date, timedelta
 import gspread
 import tokens, pravoved_data, yandex_data, lex_data
@@ -15,7 +14,7 @@ def main():
 
 def authorize():
     scope = ['https://spreadsheets.google.com/feeds']
-    cred_file = '{}{}'.format(os.getcwd(), '/google_api_credentials.json')
+    cred_file = tokens.cred_file
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
                   cred_file,
                   scope

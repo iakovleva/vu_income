@@ -16,8 +16,9 @@ def main():
 def authorize():
     # Gspread authorize
     scope = ['https://spreadsheets.google.com/feeds']
+    cred_file = tokens.cred_file
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
-                  'google_api_credentials.json',
+                  cred_file,
                   scope
                   )
     return gspread.authorize(credentials)
