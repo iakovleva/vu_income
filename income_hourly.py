@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from datetime import date
+from datetime import date, datetime
 import gspread
 import tokens, pravoved_data, yandex_data
 from oauth2client.service_account import ServiceAccountCredentials
@@ -11,6 +11,7 @@ def main():
     pr_income = pravoved_data.get_income('today')
     ya_spend = yandex_data.get_expenses('TODAY')
     write_to_spreadsheet(pr_income, ya_spend)
+    print(datetime.datetime.now())
 
 def authorize():
     # Gspread authorize
