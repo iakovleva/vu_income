@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from datetime import date, timedelta
 import gspread
 import tokens, pravoved_data, yandex_data, lex_data

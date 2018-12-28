@@ -1,6 +1,3 @@
-#! /usr/bin/python3
-# -*- coding: utf-8 -*-
-
 from datetime import date
 import gspread
 import tokens, pravoved_data, yandex_data, lex_data
