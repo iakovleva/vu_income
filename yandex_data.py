@@ -1,28 +1,37 @@
 import json
+from time import sleep
 import requests
 import tokens
-from time import sleep
 
 
 def get_expenses(period):
+    """ Gets expenses per period from website's API.
+
+    Parameters:
+    period(str): 'TODAY' or 'YESTERDAY'.
+
+    Returns:
+    total_sum(int): sum of expenses from all campaigns or prints error if fails.
+    """
+
     # --- Входные данные ---
-    ReportsURL = 'https://api.direct.yandex.com/json/v5/reports'
+    reports_url = 'https://api.direct.yandex.com/json/v5/reports'
     #ReportsURL = 'https://api-sandbox.direct.yandex.com/json/v5/reports'
 
     # Создание HTTP-заголовков запроса
     headers = {
-               "Authorization": "Bearer " + tokens.TOKEN,
-               "Accept-Language": "ru",
-               "processingMode": "auto",
-               # Формат денежных значений в отчете
-                "returnMoneyInMicros": "false",
-               # Не выводить в отчете строку с названием отчета и диапазоном дат
-                "skipReportHeader": "true",
-               # Не выводить в отчете строку с названиями полей
-                "skipColumnHeader": "true",
-               # Не выводить в отчете строку с количеством строк статистики
-                "skipReportSummary": "true"
-               }
+        "Authorization": "Bearer " + tokens.TOKEN,
+        "Accept-Language": "ru",
+        "processingMode": "auto",
+        # Формат денежных значений в отчете
+        "returnMoneyInMicros": "false",
+        # Не выводить в отчете строку с названием отчета и диапазоном дат
+        "skipReportHeader": "true",
+        # Не выводить в отчете строку с названиями полей
+        "skipColumnHeader": "true",
+        # Не выводить в отчете строку с количеством строк статистики
+        "skipReportSummary": "true"
+        }
 
     # Создание тела запроса
     body = {
@@ -49,7 +58,7 @@ def get_expenses(period):
     # Если получен HTTP-код 201 или 202, выполняются повторные запросы
     while True:
         try:
-            req = requests.post(ReportsURL, body, headers=headers)
+            req = requests.post(reports_url, body, headers=headers)
             req.encoding = 'utf-8'  # Принудительная обработка ответа в кодировке UTF-8
             if req.status_code == 400:
                 print("Параметры запроса указаны неверно или достигнут лимит отчетов в очереди")

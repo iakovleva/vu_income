@@ -1,31 +1,26 @@
 from datetime import date
-from oauth2client.service_account import ServiceAccountCredentials
 import gspread
-import tokens, pravoved_data, yandex_data, lex_data
+import tokens, pravoved_data, yandex_data, lex_data, gspread_authorize
 
 
 def main():
+    """
+    Runs scripts that gets income and expenses
+    in order to write this information to spreadsheet.
+    """
+
     pr_income = pravoved_data.get_income('today')
     lex_income = lex_data.get_income(1)
     ya_spend = yandex_data.get_expenses('TODAY')
     write_to_spreadsheet(pr_income, lex_income, ya_spend)
 
 
-def authorize():
-    # Gspread authorize
-    scope = ['https://spreadsheets.google.com/feeds']
-    cred_file = tokens.CRED_FILE
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(
-        cred_file,
-        scope
-        )
-    return gspread.authorize(credentials)
-
-
 def write_to_spreadsheet(pr_income, lex_income, ya_spend):
+    """Writes data to spreadsheet. """
+
     # Get date
     today = date.today().strftime('%d.%m')
-    gc = authorize()
+    gc = gspread_authorize.authorize()
     # Open worksheet and write hourly data
     try:
         spreadsheet = gc.open_by_url(tokens.SPREADSHEET_URL)

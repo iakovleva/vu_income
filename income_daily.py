@@ -1,34 +1,30 @@
 from datetime import date, timedelta
-from oauth2client.service_account import ServiceAccountCredentials
 import gspread
-import tokens, pravoved_data, yandex_data, lex_data
+import tokens, pravoved_data, yandex_data, lex_data, gspread_authorize
 
 
 def main():
+    """
+    Runs scripts that gets income and expenses
+    in order to write this information to spreadsheet.
+    """
+
     pr_income = pravoved_data.get_income('yesterday')
     lex_income = lex_data.get_income(2)
     ya_spend = yandex_data.get_expenses('YESTERDAY')
     write_to_spreadsheet(pr_income, lex_income, ya_spend)
 
 
-def authorize():
-    scope = ['https://spreadsheets.google.com/feeds']
-    cred_file = tokens.CRED_FILE
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(
-        cred_file,
-        scope
-        )
-    return gspread.authorize(credentials)
-
-
 def write_to_spreadsheet(pr_income, lex_income, ya_spend):
+    """Writes data to spreadsheet. """
+
     # Get date
     today = date.today()
     delta = timedelta(days=1)
     yesterday = (today - delta).strftime('%d.%m.%y')
 
     # Gspread authorize
-    gc = authorize()
+    gc = gspread_authorize.authorize()
 
     # Open worksheet and write daily data
     try:
