@@ -1,7 +1,7 @@
 from datetime import date, timedelta
+from oauth2client.service_account import ServiceAccountCredentials
 import gspread
 import tokens, pravoved_data, yandex_data, lex_data
-from oauth2client.service_account import ServiceAccountCredentials
 
 
 def main():
@@ -10,14 +10,16 @@ def main():
     ya_spend = yandex_data.get_expenses('YESTERDAY')
     write_to_spreadsheet(pr_income, lex_income, ya_spend)
 
+
 def authorize():
     scope = ['https://spreadsheets.google.com/feeds']
-    cred_file = tokens.cred_file
+    cred_file = tokens.CRED_FILE
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
-                  cred_file,
-                  scope
-                  )
+        cred_file,
+        scope
+        )
     return gspread.authorize(credentials)
+
 
 def write_to_spreadsheet(pr_income, lex_income, ya_spend):
     # Get date
@@ -30,7 +32,7 @@ def write_to_spreadsheet(pr_income, lex_income, ya_spend):
 
     # Open worksheet and write daily data
     try:
-        spreadsheet = gc.open_by_url(tokens.spreadsheet_url)
+        spreadsheet = gc.open_by_url(tokens.SPREADSHEET_URL)
         worksheet = spreadsheet.worksheet('daily')
         date_cell = worksheet.find('{}'.format(yesterday))
         if date_cell and ya_spend and pr_income and lex_income:

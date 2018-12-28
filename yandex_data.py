@@ -11,7 +11,7 @@ def get_expenses(period):
 
     # Создание HTTP-заголовков запроса
     headers = {
-               "Authorization": "Bearer " + tokens.token,
+               "Authorization": "Bearer " + tokens.TOKEN,
                "Accept-Language": "ru",
                "processingMode": "auto",
                # Формат денежных значений в отчете
