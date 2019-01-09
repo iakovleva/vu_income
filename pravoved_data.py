@@ -7,10 +7,10 @@ import tokens
 
 
 def get_income(period):
-    login_url = tokens.login_url
-    dashboard_url = tokens.dashboard_url.format(period)
+    login_url = tokens.LOGIN_URL
+    dashboard_url = tokens.DASHBOARD_URL.format(period)
     s = requests.Session()
-    payload = tokens.payload
+    payload = tokens.PAYLOAD
 
     response = s.post(login_url, data=payload, headers=dict(referer=login_url))
     response = s.get(dashboard_url)

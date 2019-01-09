@@ -16,7 +16,7 @@ def main():
 def authorize():
     # Gspread authorize
     scope = ['https://spreadsheets.google.com/feeds']
-    cred_file = tokens.cred_file
+    cred_file = tokens.CRED_FILE
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
                   cred_file,
                   scope
@@ -29,7 +29,7 @@ def write_to_spreadsheet(pr_income, ya_spend):
     gc = authorize()
     # Open worksheet and write hourly data
     try:
-        spreadsheet = gc.open_by_url(tokens.spreadsheet_url)
+        spreadsheet = gc.open_by_url(tokens.SPREADSHEET_URL)
         worksheet = spreadsheet.worksheet('hourly')
         date_column = worksheet.cell(2, 1).value.split()
         # Check if date in the first row is today
