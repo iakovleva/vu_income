@@ -1,13 +1,20 @@
 from selenium import webdriver
 import tokens
+from xvfbwrapper import Xvfb
 
 
 def get_income(period):
     # period arg: 1 = today, 2 = yesterday
 
     lex_url = tokens.LEX_URL
-    driver = webdriver.Firefox()
+    exec_path = '/home/polina/projects/income/geckodriver'
+
+    xvfb = Xvfb()
+    xvfb.start()
+
+    driver = webdriver.Firefox(executable_path=exec_path)
     driver.get(lex_url)
+
 
     # Use by xpath because there are no id and name of elements
     email = driver.find_element_by_xpath("/html/body/div[2]/div/div/form/div[1]/input")
