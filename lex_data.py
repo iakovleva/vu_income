@@ -1,6 +1,3 @@
-#! /usr/bin/python3
-# -*- coding: utf-8 -*-
-
 from selenium import webdriver
 import tokens
 
@@ -8,14 +5,15 @@ import tokens
 def get_income(period):
     # period arg: 1 = today, 2 = yesterday
 
-    lex_url = tokens.lex_url
+    lex_url = tokens.LEX_URL
     driver = webdriver.Firefox()
     driver.get(lex_url)
+
     # Use by xpath because there are no id and name of elements
     email = driver.find_element_by_xpath("/html/body/div[2]/div/div/form/div[1]/input")
     password = driver.find_element_by_xpath("/html/body/div[2]/div/div/form/div[2]/input")
-    email.send_keys(tokens.email)
-    password.send_keys(tokens.password)
+    email.send_keys(tokens.EMAIL)
+    password.send_keys(tokens.PASSWORD)
     submit = driver.find_element_by_xpath('/html/body/div[2]/div/div/form/button')
     submit.submit()
     # Wait while driver uploads redirect page
