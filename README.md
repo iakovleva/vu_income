@@ -19,6 +19,8 @@ Script uses:
 1. Create Google SpreadSheet
 2. In SpreadSheet:
    - Create 2 tabs called 'hourly', 'daily'.
+   - Add headers in the first row: 'Date/Time', 'Lexprofit', 'Pravoved', 'Google',
+     Yandex'
    - In the first column of 'daily' tab write yesterday's date, i.e. '08.01.18'
    - In the first column of 'hourly' tab write today's date and time, i.e. '09.01 12:00'
 
