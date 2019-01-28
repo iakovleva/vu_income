@@ -36,8 +36,9 @@ pip install -r requirements.txt
 ```
 
 4. Get Google API credentials for Gspread authorize. 
-(Save Google API credentials file in the current directory) 
-5. Fill in tokens.py file.  
+Follow https://gspread.readthedocs.io/en/latest/oauth2.html
+(Save JSON file wifth credentials in the current directory) 
+5. Fill in tokens.py example file.  Rename it to 'tokens.py'.
 6. Run script
 
 ```
