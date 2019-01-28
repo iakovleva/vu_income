@@ -1,3 +1,4 @@
+import os
 from selenium import webdriver
 import tokens
 from xvfbwrapper import Xvfb
@@ -7,7 +8,7 @@ def get_income(period):
     # period arg: 1 = today, 2 = yesterday
 
     lex_url = tokens.LEX_URL
-    exec_path = '/home/polina/projects/income/geckodriver'
+    exec_path = '{}{}'.format(os.getcwd(), '/geckodriver')
 
     xvfb = Xvfb()
     xvfb.start()
