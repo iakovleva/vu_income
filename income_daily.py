@@ -31,14 +31,15 @@ def write_to_spreadsheet(pr_income, lex_income, ya_spend):
         spreadsheet = gc.open_by_url(tokens.SPREADSHEET_URL)
         worksheet = spreadsheet.worksheet('daily')
         date_cell = worksheet.find('{}'.format(yesterday))
-        if date_cell and ya_spend and pr_income and lex_income:
+        if date_cell and ya_spend:
+        # if pr_income and lex_income:
             worksheet.update_cell(date_cell.row, 2, lex_income)
             worksheet.update_cell(date_cell.row, 3, pr_income)
-            worksheet.update_cell(date_cell.row, 5, ya_spend)
+            worksheet.update_cell(date_cell.row, 6, ya_spend)
         else:
             worksheet.update_cell(date_cell.row, 2, 'No data')
             worksheet.update_cell(date_cell.row, 3, 'No data')
-            worksheet.update_cell(date_cell.row, 5, 'No data')
+            worksheet.update_cell(date_cell.row, 6, 'No data')
     except gspread.exceptions.GSpreadException as e:
         print(e)
     except:
