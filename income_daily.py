@@ -5,7 +5,7 @@ import tokens, pravoved_data, yandex_data, lex_data, gspread_authorize
 
 def main():
     """
-    Runs scripts that gets income and expenses
+    Run scripts that gets income and expenses
     in order to write this information to spreadsheet.
     """
 
@@ -16,7 +16,7 @@ def main():
 
 
 def write_to_spreadsheet(pr_income, lex_income, ya_spend):
-    """Writes data to spreadsheet. """
+    """Write data to spreadsheet."""
 
     # Get date
     today = date.today()
@@ -28,7 +28,7 @@ def write_to_spreadsheet(pr_income, lex_income, ya_spend):
 
     # Open worksheet and write daily data
     try:
-        spreadsheet = gc.open_by_url(tokens.SPREADSHEET_URL)
+        spreadsheet = gc.open_by_url(tokens.SPREADSHEET_INCOME)
         worksheet = spreadsheet.worksheet('daily')
         date_cell = worksheet.find('{}'.format(yesterday))
         if date_cell and ya_spend:
