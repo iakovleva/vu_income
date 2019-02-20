@@ -15,22 +15,16 @@ def matreshka_income():
     gc = gspread_authorize.authorize()
     
     # Open Matreshka spreadsheet
-    try:
-        ss_matreshka = gc.open_by_url(tokens.SPREADSHEET_MATRESHKA)
-        ws_matreshka = ss_matreshka.worksheet('Пришедшие')
-    except gspread.exceptions.GSpreadException as e:
-        print(e)
-    except:
-        print('Spreadsheet Matreshka was not opened')
+    ws_matreshka = gspread_authorize.open_sheet(
+        gc, 
+        tokens.SPREADSHEET_MATRESHKA,
+        'Пришедшие')
 
-    # Open worksheet and write daily data
-    try:
-        ss_income = gc.open_by_url(tokens.SPREADSHEET_INCOME)
-        ws_income = ss_income.worksheet('daily')
-    except gspread.exceptions.GSpreadException as e:
-        print(e)
-    except:
-        print('Spreadsheet Income was not opened')
+    # Open Income worksheet
+    ws_income = gspread_authorize.open_sheet(
+        gc,
+        tokens.SPREADSHEET_INCOME,
+        'daily')
   
     # Count rows in Matreshka sheet
     number_of_rows = len(ws_matreshka.col_values(1))
