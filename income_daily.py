@@ -9,12 +9,14 @@ def main():
     """
 
     pr_income = pravoved_data.get_income('yesterday')
-    lex_income = lex_data.get_income(2)
+    lex_yesterday = lex_data.get_income(2)
+    lex_4_days_ago = lex_data.get_income(5)
     ya_spend = yandex_data.get_expenses('YESTERDAY')
-    write_to_spreadsheet(pr_income, lex_income, ya_spend)
+    write_to_spreadsheet(pr_income, lex_4_days_ago, lex_yesterday, ya_spend)
 
 
-def write_to_spreadsheet(pr_income, lex_income, ya_spend):
+def write_to_spreadsheet(pr_income, lex_4_days_ago, 
+                         lex_yesterday, ya_spend):
     """Write data to spreadsheet."""
 
     # Get date
@@ -33,11 +35,13 @@ def write_to_spreadsheet(pr_income, lex_income, ya_spend):
     date_cell = worksheet.find('{}'.format(yesterday))
     if date_cell and ya_spend:
     # if pr_income and lex_income:
-        worksheet.update_cell(date_cell.row, 2, lex_income)
+        worksheet.update_cell(date_cell.row+3, 2, lex_4_days_ago)
+        worksheet.update_cell(date_cell.row, 12, lex_yesterday)
         worksheet.update_cell(date_cell.row, 3, pr_income)
         worksheet.update_cell(date_cell.row, 6, ya_spend)
     else:
         worksheet.update_cell(date_cell.row, 2, 'No data')
+        worksheet.update_cell(date_cell.row, 12, 'No data')
         worksheet.update_cell(date_cell.row, 3, 'No data')
         worksheet.update_cell(date_cell.row, 6, 'No data')
 

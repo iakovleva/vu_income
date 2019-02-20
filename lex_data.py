@@ -5,7 +5,7 @@ from xvfbwrapper import Xvfb
 
 
 def get_income(period):
-    # period arg: 1 = today, 2 = yesterday
+    # period arg: 1 = today, 2 = yesterday, 5 = 4 days ago
 
     lex_url = tokens.LEX_URL
     exec_path = '{}{}'.format(os.getcwd(), '/geckodriver')
