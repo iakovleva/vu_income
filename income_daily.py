@@ -1,5 +1,4 @@
 from datetime import date, timedelta
-import gspread
 import tokens, pravoved_data, yandex_data, lex_data, gspread_authorize
 
 
@@ -21,29 +20,26 @@ def write_to_spreadsheet(pr_income, lex_income, ya_spend):
     # Get date
     today = date.today()
     delta = timedelta(days=1)
-    yesterday = (today - delta).strftime('%d.%m.%y')
+    yesterday = (today - delta).strftime('%d/%m/%Y')
 
     # Gspread authorize
     gc = gspread_authorize.authorize()
 
-    # Open worksheet and write daily data
-    try:
-        spreadsheet = gc.open_by_url(tokens.SPREADSHEET_INCOME)
-        worksheet = spreadsheet.worksheet('daily')
-        date_cell = worksheet.find('{}'.format(yesterday))
-        if date_cell and ya_spend:
-        # if pr_income and lex_income:
-            worksheet.update_cell(date_cell.row, 2, lex_income)
-            worksheet.update_cell(date_cell.row, 3, pr_income)
-            worksheet.update_cell(date_cell.row, 6, ya_spend)
-        else:
-            worksheet.update_cell(date_cell.row, 2, 'No data')
-            worksheet.update_cell(date_cell.row, 3, 'No data')
-            worksheet.update_cell(date_cell.row, 6, 'No data')
-    except gspread.exceptions.GSpreadException as e:
-        print(e)
-    except:
-        print('Spreadsheet was not opened')
+    # Open worksheet 
+    worksheet = gspread_authorize.open_sheet(
+        gc, 
+        tokens.SPREADSHEET_INCOME,
+        'daily')
+    date_cell = worksheet.find('{}'.format(yesterday))
+    if date_cell and ya_spend:
+    # if pr_income and lex_income:
+        worksheet.update_cell(date_cell.row, 2, lex_income)
+        worksheet.update_cell(date_cell.row, 3, pr_income)
+        worksheet.update_cell(date_cell.row, 6, ya_spend)
+    else:
+        worksheet.update_cell(date_cell.row, 2, 'No data')
+        worksheet.update_cell(date_cell.row, 3, 'No data')
+        worksheet.update_cell(date_cell.row, 6, 'No data')
 
 
 if __name__ == '__main__':
