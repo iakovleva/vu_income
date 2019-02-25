@@ -18,7 +18,7 @@ def matreshka_income():
     ws_matreshka = gspread_authorize.open_sheet(
         gc, 
         tokens.SPREADSHEET_MATRESHKA,
-        'Пришедшие')
+        'Пришедшие (света)')
 
     # Open Income worksheet
     ws_income = gspread_authorize.open_sheet(
@@ -28,18 +28,13 @@ def matreshka_income():
   
     # Count rows in Matreshka sheet
     number_of_rows = len(ws_matreshka.col_values(1))
-    # Get the number of rows after previous run
-    previous_rows = int(ws_income.cell(1, 16).value)
     dates = []
 
     # Get dates from all new rows in Matreshka sheet
-    for i in range(number_of_rows - previous_rows):
+    for i in range(number_of_rows-1):
         date = ws_matreshka.cell(i+2, 7).value.split()[0]
-        previous_rows += 1
         dates.append(date)
-    # Update number of rows for the next run
-    ws_income.update_cell(1, 16, previous_rows)
-
+    
     # Write income to the rows with appropriate dates in Income sheet
     for date in dates:
         date_cell = ws_income.find('{}'.format(date))
