@@ -1,5 +1,6 @@
 import gspread
 import tokens, gspread_authorize
+from collections import Counter
 
 
 def matreshka_income():
@@ -35,16 +36,16 @@ def matreshka_income():
         date = ws_matreshka.cell(i+2, 7).value.split()[0]
         dates.append(date)
     
+    # Count all occurences of each date 
+    dates_counter = Counter(dates)
+
     # Write income to the rows with appropriate dates in Income sheet
-    for date in dates:
+    for date in dates_counter.keys():
         date_cell = ws_income.find('{}'.format(date))
         # If date=today, it's not in Income sheet yet
         if date_cell:
-            cell = ws_income.cell(date_cell.row, 4).value
-            if cell is '':
-                ws_income.update_cell(date_cell.row, 4, '1100')
-            else:
-                ws_income.update_cell(date_cell.row, 4, int(cell)+1100)
+            ws_income.update_cell(date_cell.row, 4, dates_counter[date]*1100)
+
 
 if __name__=='__main__':
      matreshka_income()
